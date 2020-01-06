@@ -12,7 +12,8 @@ public class CensusAnalyser {
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-            Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCsv().getCSVIterator(reader, IndiaCensusCSV.class);
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVIterator(reader, IndiaCensusCSV.class);
           return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
@@ -27,7 +28,8 @@ public class CensusAnalyser {
 
     public int loadIndiaCensusDataCode(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-            Iterator<CSVStates> censusCSVIterator = new OpenCsv().getCSVIterator(reader, CSVStates.class);
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<CSVStates> censusCSVIterator = csvBuilder.getCSVIterator(reader, CSVStates.class);
            return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
