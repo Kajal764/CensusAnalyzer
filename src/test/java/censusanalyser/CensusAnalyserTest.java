@@ -1,8 +1,11 @@
 package censusanalyser;
 
+import com.brideglabz.CSVBuilderException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.io.IOException;
 
 import static censusanalyser.CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM;
 
@@ -64,10 +67,8 @@ public class CensusAnalyserTest {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_FILE_DATA);
-
             Assert.assertEquals(29, numOfRecords);
-
-        } catch (CensusAnalyserException e) {
+            } catch (CensusAnalyserException e) {
             System.out.println(numOfRecords);
             Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA, e.type);
         }
@@ -81,7 +82,7 @@ public class CensusAnalyserTest {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(CSV_HEADER_INCORRECT);
-        } catch (CensusAnalyserException e) {
+            } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA, e.type);
         }
     }
@@ -132,9 +133,7 @@ public class CensusAnalyserTest {
             try {
                 CensusAnalyser censusAnalyser = new CensusAnalyser();
                 numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_STATECODE_CSV_FILE_PATH);
-
                 Assert.assertEquals(37, numOfRecords);
-
             } catch (CensusAnalyserException e) {
                 System.out.println(numOfRecords);
                 Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA, e.type);
@@ -154,6 +153,23 @@ public class CensusAnalyserTest {
             }
         }
 
+   @Test
+    public void WhenGivenSortedListFirstEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            int firstIndex=1;
+            String s = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH,firstIndex);
+            String s1 = "IndiaCensusCSV{state='Andhra Pradesh', population=49386799, areaInSqKm=162968, densityPerSqKm=303}";
+            Assert.assertEquals(s1, s);
 
+    }
+    @Test
+    public void WhenGivenSortedListLastEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException {
+        CensusAnalyser censusAnalyser=new CensusAnalyser();
+        int lastIndex=2;
+        String s = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH,lastIndex);
+        String s1 = "IndiaCensusCSV{state='West Bengal', population=91347736, areaInSqKm=88752, densityPerSqKm=1029}";
+        Assert.assertEquals(s1,s);
+
+    }
 
 }

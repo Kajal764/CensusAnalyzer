@@ -2,6 +2,10 @@ package censusanalyser;
 
 import com.opencsv.bean.CsvBindByName;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
+
 public class IndiaCensusCSV {
 
     @CsvBindByName(column = "State", required = true)
@@ -16,13 +20,14 @@ public class IndiaCensusCSV {
     @CsvBindByName(column = "DensityPerSqKm", required = true)
     public int densityPerSqKm;
 
+
     @Override
     public String toString() {
         return "IndiaCensusCSV{" +
-                "State='" + state + '\'' +
-                ", Population='" + population + '\'' +
-                ", AreaInSqKm='" + areaInSqKm + '\'' +
-                ", DensityPerSqKm='" + densityPerSqKm + '\'' +
+                "state='" + state + '\'' +
+                ", population=" + population +
+                ", areaInSqKm=" + areaInSqKm +
+                ", densityPerSqKm=" + densityPerSqKm +
                 '}';
     }
 }
