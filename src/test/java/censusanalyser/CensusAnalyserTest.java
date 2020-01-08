@@ -1,6 +1,8 @@
 package censusanalyser;
 
 import com.brideglabz.CSVBuilderException;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -154,21 +156,18 @@ public class CensusAnalyserTest {
         }
 
    @Test
-    public void WhenGivenSortedListFirstEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException {
+    public void WhenGivenSortedListFirstEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
-            int firstIndex=1;
-            String s = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH,firstIndex);
-            String s1 = "IndiaCensusCSV{state='Andhra Pradesh', population=49386799, areaInSqKm=162968, densityPerSqKm=303}";
-            Assert.assertEquals(s1, s);
+            JSONArray s = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            Assert.assertEquals(true,s.get(0).toString().contains("Andhra Pradesh"));
 
     }
+
     @Test
-    public void WhenGivenSortedListLastEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException {
+    public void  WhenGivenSortedListLastEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
         CensusAnalyser censusAnalyser=new CensusAnalyser();
-        int lastIndex=2;
-        String s = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH,lastIndex);
-        String s1 = "IndiaCensusCSV{state='West Bengal', population=91347736, areaInSqKm=88752, densityPerSqKm=1029}";
-        Assert.assertEquals(s1,s);
+        JSONArray s = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        Assert.assertEquals(true,s.get(28).toString().contains("West Bengal"));
 
     }
 

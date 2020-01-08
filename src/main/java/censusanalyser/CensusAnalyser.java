@@ -1,8 +1,7 @@
 package censusanalyser;
 
 import com.brideglabz.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,8 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 public class CensusAnalyser {
     ArrayList list = new ArrayList();
@@ -60,15 +57,15 @@ public class CensusAnalyser {
     }
 
 
-    private String sortIndiaCensusData(Iterator<IndiaCensusCSV> censusCSVIterator, int firstIndex) {
+    private JSONArray sortIndiaCensusData(Iterator<IndiaCensusCSV> censusCSVIterator) {
         while (censusCSVIterator.hasNext()) {
             String s = (censusCSVIterator.next()).toString();
             list.add(s); }
-            String objlist = bubbleSort(list,firstIndex);
+            JSONArray objlist = bubbleSort(list);
             return objlist;
     }
 
-    private String bubbleSort(ArrayList list, int firstIndex) {
+    private JSONArray bubbleSort(ArrayList list) {
         for (int i = 0; i < list.size(); i++)
         { String element1 = (String) list.get(i);
             for (int j = 0; j < list.size() - 1; j++) {
@@ -80,18 +77,21 @@ public class CensusAnalyser {
                 }
             }
         }
+       JSONArray jsArray = new JSONArray();
+        for(int i=0; i<list.size();i++)
+        {
+            jsArray.put(list.get(i));
+        }
+        System.out.println(jsArray);
+        return jsArray;
 
-        System.out.println(list);
-        if(firstIndex==1)
-            return (String) list.get(0);
-        return (String) list.get(list.size() - 1);
     }
 
-    public String sortingIndiaCensusData(String csvFilePath, int firstIndex) throws IOException, CSVBuilderException {
+    public JSONArray sortingIndiaCensusData(String csvFilePath) throws IOException, CSVBuilderException {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVIterator(reader, IndiaCensusCSV.class);
-            return this.sortIndiaCensusData(censusCSVIterator,firstIndex);
+            return this.sortIndiaCensusData(censusCSVIterator);
     }
 
 }
