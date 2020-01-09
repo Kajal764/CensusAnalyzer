@@ -2,14 +2,12 @@ package censusanalyser;
 
 import com.brideglabz.CSVBuilderException;
 import com.google.gson.Gson;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.IOException;
-import java.util.List;
 
 import static censusanalyser.CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM;
 
@@ -172,20 +170,20 @@ public class CensusAnalyserTest {
         //------->SortedFunctionTestcase
   @Test
     public void WhenReturnSortedListFirstEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
-            CensusAnalyser censusAnalyser = new CensusAnalyser();
-      String censusCSVList = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-        IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(censusCSVList,IndiaCensusCSV[].class);
-      System.out.println(indiaCensusCSV[0]);
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+      censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+      String censusCSVList = censusAnalyser.sortingIndiaCensusData();
+      IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(censusCSVList,IndiaCensusCSV[].class);
       Assert.assertEquals(true,indiaCensusCSV[0].state.contains("Andhra Pradesh"));
     }
 
     @Test
     public void WhenReturnSortedListLastEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        String censusCSVList = censusAnalyser.sortingIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        String censusCSVList = censusAnalyser.sortingIndiaCensusData();
         IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(censusCSVList,IndiaCensusCSV[].class);
         Assert.assertEquals(true,indiaCensusCSV[28].state.contains("West Bengal"));
     }
-
 
 }
