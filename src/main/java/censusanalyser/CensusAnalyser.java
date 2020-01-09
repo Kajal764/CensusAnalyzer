@@ -1,24 +1,28 @@
 package censusanalyser;
 
-import com.brideglabz.*;
-import org.json.JSONArray;
+
+import com.brideglabz.CSVBuilderException;
+import com.brideglabz.CSVBuilderFactory;
+import com.brideglabz.ICSVBuilder;
+import com.google.gson.Gson;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
-    ArrayList list = new ArrayList();
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVIterator(reader, IndiaCensusCSV.class);
-            return this.getCount(censusCSVIterator);
-
+           List<IndiaCensusCSV> censusCSVList=csvBuilder.getCSVFileList(reader,IndiaCensusCSV.class);
+            return censusCSVList.size();
+          //  return this.getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -34,8 +38,10 @@ public class CensusAnalyser {
     public int loadIndiaCensusDataCode(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStates> censusCSVIterator = csvBuilder.getCSVIterator(reader, CSVStates.class);
-            return this.getCount(censusCSVIterator);
+            /*Iterator<CSVStates> censusCSVIterator = csvBuilder.getCSVIterator(reader, CSVStates.class);
+            return this.getCount(censusCSVIterator);*/
+            List<CSVStates> censusCSVList=csvBuilder.getCSVFileList(reader,CSVStates.class);
+            return censusCSVList.size();
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -52,46 +58,27 @@ public class CensusAnalyser {
     private <E> int getCount(Iterator<E> censusCSVIterator) {
         Iterable<E> csvIterator = () -> censusCSVIterator;
         int numOfEnteries = (int) StreamSupport.stream(csvIterator.spliterator(), true).count();
+        System.out.println(numOfEnteries);
         return numOfEnteries;
 
     }
 
-
-    private JSONArray sortIndiaCensusData(Iterator<IndiaCensusCSV> censusCSVIterator) {
+    private String sortIndiaCensusData(Iterator<IndiaCensusCSV> censusCSVIterator) throws JSONException {
+        ArrayList<IndiaCensusCSV> list = new ArrayList();
         while (censusCSVIterator.hasNext()) {
-            String s = (censusCSVIterator.next()).toString();
-            list.add(s); }
-            JSONArray objlist = bubbleSort(list);
-            return objlist;
+            list.add(censusCSVIterator.next());
+        }
+        List <IndiaCensusCSV> sortedList = list.stream().sorted(Comparator.comparing(IndiaCensusCSV::getState)).collect(Collectors.toList());
+        String sortList = new Gson().toJson(sortedList);
+
+        return sortList;
     }
 
-    private JSONArray bubbleSort(ArrayList list) {
-        for (int i = 0; i < list.size(); i++)
-        { String element1 = (String) list.get(i);
-            for (int j = 0; j < list.size() - 1; j++) {
-                String element2 = (String) list.get(j);
-                if (element1.compareTo(element2) < 0) {
-                    String temp = (String) list.get(i);
-                    list.set(i, list.get(j));
-                    list.set(j, temp);
-                }
-            }
-        }
-       JSONArray jsArray = new JSONArray();
-        for(int i=0; i<list.size();i++)
-        {
-            jsArray.put(list.get(i));
-        }
-        System.out.println(jsArray);
-        return jsArray;
-
-    }
-
-    public JSONArray sortingIndiaCensusData(String csvFilePath) throws IOException, CSVBuilderException {
+    public String sortingIndiaCensusData(String csvFilePath) throws IOException, CSVBuilderException, JSONException {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVIterator(reader, IndiaCensusCSV.class);
-            return this.sortIndiaCensusData(censusCSVIterator);
+            return String.valueOf(this.sortIndiaCensusData(censusCSVIterator));
     }
 
 }

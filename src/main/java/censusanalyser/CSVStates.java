@@ -15,14 +15,22 @@ public class CSVStates  {
     @CsvBindByName(column = "StateCode", required = true)
     public String StateCode;
 
-    @Override
-    public String toString() {
-        return "IndiaCensusCSV{" +
-                "SrNo='" + SrNo+ '\'' +
-                ", StateName='" + StateName+ '\'' +
-                ", TIN='" + TIN + '\'' +
-                ", StateCode='" + StateCode+ '\'' +
-                '}';
+
+    public String getStateName() {
+        return StateName;
     }
 
+    public String getStateCode() {
+        return StateCode;
+    }
+
+    @Override
+    public String toString() {
+        return "CSVStates{" +
+                "SrNo=" + SrNo +
+                ", StateName='" + StateName + '\'' +
+                ", TIN=" + TIN +
+                ", StateCode='" + StateCode + '\'' +
+                '}';
+    }
 }
