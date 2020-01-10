@@ -90,6 +90,17 @@ public class CensusAnalyser {
         String sortList = new Gson().toJson(sortedList);
         System.out.println(sortList);
         return sortList;
+    }
 
+    public String sortIndiaCensusPopulationWise() throws CensusAnalyserException {
+        if(censusList == null || censusList.size()==0)
+        {
+            throw new CensusAnalyserException("NO Census Data",
+                    CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA);
+        }
+        List <IndiaCensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(IndiaCensusDAO::getPopulation).reversed()).collect(Collectors.toList());
+        String sortList = new Gson().toJson(sortedList);
+        System.out.println(sortList);
+        return sortList;
     }
 }

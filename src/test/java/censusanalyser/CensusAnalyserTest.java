@@ -96,7 +96,6 @@ public class CensusAnalyserTest {
     }
 
 // ----->
-
     @Test
     public void givenIndianStateCodeCSVFileReturnsCorrectRecords() {
         int numOfRecords = 0;
@@ -212,5 +211,27 @@ public class CensusAnalyserTest {
         System.out.println(indiaStateCSV[36]);
         Assert.assertEquals(true, indiaStateCSV[36].StateCode.contains("WB"));
     }
+
+    @Test
+    public void WhenReturnSortedDataBasedOnPopulationFirstEntry_ShouldReturnTrue() throws CensusAnalyserException {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        String censusCSVList = censusAnalyser.sortIndiaCensusPopulationWise();
+        IndiaCensusCSV[] indiaStateCSV = new Gson().fromJson(censusCSVList, IndiaCensusCSV[].class);
+        System.out.println(indiaStateCSV[0]);
+        Assert.assertEquals(199812341,indiaStateCSV[0].population);
+    }
+
+    @Test
+    public void WhenReturnSortedDataBasedOnPopulationLastEntry_ShouldReturnTrue() throws CensusAnalyserException {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        String censusCSVList = censusAnalyser.sortIndiaCensusPopulationWise();
+        IndiaCensusCSV[] indiaStateCSV = new Gson().fromJson(censusCSVList, IndiaCensusCSV[].class);
+        System.out.println(indiaStateCSV[28]);
+        Assert.assertEquals(607688,indiaStateCSV[28].population);
+    }
+
+
 
 }

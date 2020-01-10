@@ -10,14 +10,16 @@ public class IndiaCensusDAO {
         return state;
     }
 
+    public int getPopulation() {
+        return population;
+    }
+
     public IndiaCensusDAO(IndiaCensusCSV indiaCensusCSV)
     {
         state=indiaCensusCSV.state;
         population=indiaCensusCSV.population;
         areaInSqKm=indiaCensusCSV.population;
         densityPerSqKm=indiaCensusCSV.densityPerSqKm;
-
-
     }
 
 
