@@ -1,6 +1,7 @@
 package censusanalyser;
 
 public class IndiaCensusDAO {
+
     public String state;
     public int population;
     public int areaInSqKm;
@@ -18,12 +19,15 @@ public class IndiaCensusDAO {
         return densityPerSqKm;
     }
 
+    public int getAreaInSqKm() {
+        return areaInSqKm;
+    }
+
     public IndiaCensusDAO(IndiaCensusCSV indiaCensusCSV)
     {
         state=indiaCensusCSV.state;
         population=indiaCensusCSV.population;
-        areaInSqKm=indiaCensusCSV.population;
+        areaInSqKm=indiaCensusCSV.areaInSqKm;
         densityPerSqKm=indiaCensusCSV.densityPerSqKm;
     }
-
 }
