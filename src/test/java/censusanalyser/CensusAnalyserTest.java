@@ -232,6 +232,14 @@ public class CensusAnalyserTest {
         Assert.assertEquals(607688,indiaStateCSV[28].population);
     }
 
+    @Test
+    public void whenReturnSortedDataBasedOnDensity_ShouldReturnTrue() throws CensusAnalyserException {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        String censusCSVList = censusAnalyser.sortIndiaCensusDensityWise();
+        IndiaCensusCSV[] indiaStateCSV = new Gson().fromJson(censusCSVList, IndiaCensusCSV[].class);
+        Assert.assertEquals(50,indiaStateCSV[28].densityPerSqKm);
+        Assert.assertEquals(1102,indiaStateCSV[0].densityPerSqKm);
 
-
+    }
 }
