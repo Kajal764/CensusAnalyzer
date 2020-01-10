@@ -16,9 +16,6 @@ public class CSVStates  {
     public String StateCode;
 
 
-    public String getStateName() {
-        return StateName;
-    }
 
     public String getStateCode() {
         return StateCode;
