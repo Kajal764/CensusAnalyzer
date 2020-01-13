@@ -14,14 +14,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CensusAnalyser {
-    List<IndiaCensusDAO> censusList =null;
+    List<CensusDAO> censusList =null;
     List<CSVStateDAO> CSVStateList=null;
-    List<UsCensusDAO> UsList=null;
 
     public CensusAnalyser() {
-        this.censusList = new ArrayList<IndiaCensusDAO>();
+        this.censusList = new ArrayList<CensusDAO>();
         this.CSVStateList=new ArrayList<CSVStateDAO>();
-        this.UsList=new ArrayList<UsCensusDAO>();
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
@@ -31,7 +29,7 @@ public class CensusAnalyser {
             int i=0;
             while (i<csvFileList.size())
             {
-                this.censusList.add(new IndiaCensusDAO(csvFileList.get(i)));
+                this.censusList.add(new CensusDAO(csvFileList.get(i)));
                 i++;
             }
             return censusList.size();
@@ -75,7 +73,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException("NO Census Data",
                     CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA);
         }
-        List <IndiaCensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(IndiaCensusDAO::getState)).collect(Collectors.toList());
+        List <CensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(CensusDAO::getState)).collect(Collectors.toList());
         String sortList = new Gson().toJson(sortedList);
         System.out.println(sortList);
         return sortList;
@@ -100,7 +98,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException("NO Census Data",
                     CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA);
         }
-        List <IndiaCensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(IndiaCensusDAO::getPopulation).reversed()).collect(Collectors.toList());
+        List <CensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(CensusDAO::getPopulation).reversed()).collect(Collectors.toList());
         String sortList = new Gson().toJson(sortedList);
         System.out.println(sortList);
         return sortList;
@@ -112,7 +110,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException("NO Census Data",
                     CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA);
         }
-        List <IndiaCensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(IndiaCensusDAO::getDensityPerSqKm).reversed()).collect(Collectors.toList());
+        List <CensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(CensusDAO::getDensityPerSqKm).reversed()).collect(Collectors.toList());
         String sortList = new Gson().toJson(sortedList);
         System.out.println(sortList);
         return sortList;
@@ -124,7 +122,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException("NO Census Data",
                     CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA);
         }
-        List <IndiaCensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(IndiaCensusDAO::getAreaInSqKm).reversed()).collect(Collectors.toList());
+        List <CensusDAO> sortedList = censusList.stream().sorted(Comparator.comparing(CensusDAO::getAreaInSqKm).reversed()).collect(Collectors.toList());
         String sortList = new Gson().toJson(sortedList);
         System.out.println(sortList);
         return sortList;
@@ -138,10 +136,10 @@ public class CensusAnalyser {
                 int i=0;
                 while (i<csvFileList.size())
                 {
-                    this.UsList.add(new UsCensusDAO(csvFileList.get(i)));
+                    this.censusList.add(new CensusDAO(csvFileList.get(i)));
                     i++;
                 }
-                return UsList.size();
+                return censusList.size();
             } catch (IOException e) {
                 throw new CensusAnalyserException(e.getMessage(),
                         CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
