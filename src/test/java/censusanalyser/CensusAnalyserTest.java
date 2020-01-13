@@ -165,7 +165,8 @@ public class CensusAnalyserTest {
     //------->SortedFunctionTestcase
     @Test
     public void WhenReturnSortedListFirstEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
-        CensusAnalyser censusAnalyser = new CensusAnalyser();
+       CensusAnalyser censusAnalyser = new CensusAnalyser();
+
         censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
         String censusCSVList = censusAnalyser.sortingIndiaCensusData();
         IndiaCensusCSV[] indiaCensusCSV = new Gson().fromJson(censusCSVList, IndiaCensusCSV[].class);
