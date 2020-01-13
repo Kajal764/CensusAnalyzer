@@ -102,7 +102,7 @@ public class CensusAnalyserTest {
         int numOfRecords = 0;
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
-            numOfRecords = censusAnalyser.loadIndiaCensusDataCode(INDIA_STATECODE_CSV_FILE_PATH);
+            numOfRecords = censusAnalyser.loadIndiastateDataCode(INDIA_STATECODE_CSV_FILE_PATH);
             Assert.assertEquals(37, numOfRecords);
             System.out.println(numOfRecords);
         } catch (CensusAnalyserException e) {
@@ -117,7 +117,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            censusAnalyser.loadIndiaCensusDataCode(WRONG_STATECODE_CSV_FILE_PATH);
+            censusAnalyser.loadIndiastateDataCode(WRONG_STATECODE_CSV_FILE_PATH);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CENSUS_FILE_PROBLEM, e.type);
         }
@@ -130,7 +130,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            censusAnalyser.loadIndiaCensusDataCode(INDIA_STATECODE_CSV_FILE_PATH);
+            censusAnalyser.loadIndiastateDataCode(INDIA_STATECODE_CSV_FILE_PATH);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CENSUS_FILE_PROBLEM, e.type);
         }
@@ -141,8 +141,9 @@ public class CensusAnalyserTest {
         int numOfRecords = 0;
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
-            numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_STATECODE_CSV_FILE_PATH);
+            numOfRecords = censusAnalyser.loadIndiastateDataCode(INDIA_STATECODE_CSV_FILE_PATH);
             Assert.assertEquals(37, numOfRecords);
+            System.out.println(numOfRecords);
         } catch (CensusAnalyserException e) {
             System.out.println(numOfRecords);
             Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA, e.type);
@@ -155,7 +156,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            censusAnalyser.loadIndiaCensusData(INDIA_STATECODE_CSV_HEADER_INCORRECT);
+            censusAnalyser.loadIndiastateDataCode(INDIA_STATECODE_CSV_HEADER_INCORRECT);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.INCORRECT_FILE_DATA, e.type);
         }
@@ -196,7 +197,7 @@ public class CensusAnalyserTest {
     @Test
     public void WhenReturnSortedCSVStateListFirstEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndiaCensusDataCode(INDIA_STATECODE_CSV_FILE_PATH);
+        censusAnalyser.loadIndiastateDataCode(INDIA_STATECODE_CSV_FILE_PATH);
         String censusCSVList = censusAnalyser.sortingIndiaStateCodeCSV();
         CSVStates[] indiaStateCSV = new Gson().fromJson(censusCSVList, CSVStates[].class);
         System.out.println(indiaStateCSV[0]);
@@ -206,7 +207,7 @@ public class CensusAnalyserTest {
     @Test
     public void WhenReturnSortedCSVStateListLastEntry_ShouldReturnTrue() throws CensusAnalyserException, IOException, CSVBuilderException, JSONException {
         CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndiaCensusDataCode(INDIA_STATECODE_CSV_FILE_PATH);
+        censusAnalyser.loadIndiastateDataCode(INDIA_STATECODE_CSV_FILE_PATH);
         String censusCSVList = censusAnalyser.sortingIndiaStateCodeCSV();
         CSVStates[] indiaStateCSV = new Gson().fromJson(censusCSVList, CSVStates[].class);
         System.out.println(indiaStateCSV[36]);
