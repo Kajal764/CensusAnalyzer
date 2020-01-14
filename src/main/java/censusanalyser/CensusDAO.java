@@ -8,7 +8,9 @@ public class CensusDAO {
     public double areaInSqKm;
     public double densityPerSqKm;
 
-
+    public String getStateCode() {
+        return stateCode;
+    }
 
     public String getState() {
         return state;
