@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.StreamSupport;
 
-public class CensusLoader {
+public class IndiaCensusAdapter {
+
     Map<String, CensusDAO> censusMap=new TreeMap<>();
 
     public <E> Map<String, CensusDAO> loadCensusData(Class<E> CensusCSVClass, String... csvFilePath) throws CensusAnalyserException {
@@ -34,10 +34,9 @@ public class CensusLoader {
                         .forEach(CensusCSV ->censusMap.put(CensusCSV.state,new CensusDAO(CensusCSV)));
             }
 
-            if(csvFilePath.length==1)
-                return censusMap;
-            Map<String, CensusDAO> stringCensusDAOMap = this.loadIndiastateDataCode(csvFilePath[1],censusMap);
-            return stringCensusDAOMap;
+            if(csvFilePath.length==1) return censusMap;
+            this.loadIndiastateDataCode(csvFilePath[1],censusMap);
+            return censusMap;
         }catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -56,9 +55,8 @@ public class CensusLoader {
             List<CSVStates> csvFileList = csvBuilder.getCSVFileList(reader, CSVStates.class);
 
             StreamSupport.stream(csvFileList.spliterator(),false)
-                   .filter(CSVStateList->censusMap.get(CSVStateList.StateName)!=null)
-                    .forEach(CSVStateList ->censusMap.get(CSVStateList.StateName).stateCode=CSVStateList.StateCode);
-
+                    .filter(CSVStateList->censusMap.get(CSVStateList.StateName)!=null)
+                    .forEach(CensusData ->censusMap.get(CensusData.StateName).stateCode=CensusData.StateCode);
             return censusMap;
         }catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
@@ -70,6 +68,7 @@ public class CensusLoader {
             throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }
+
 
 
 }

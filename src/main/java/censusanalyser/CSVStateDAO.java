@@ -2,10 +2,11 @@ package censusanalyser;
 
 
 public class CSVStateDAO {
-    private int TIN;
-    private String StateCode;
-    private int SrNo;
-    private String StateName;
+    public int TIN;
+    public String StateCode;
+    public int SrNo;
+    public String StateName;
+
 
     public String getStateCode() {
         return StateCode;
@@ -17,4 +18,6 @@ public class CSVStateDAO {
         TIN=csvStates.TIN;
         StateCode=csvStates.StateCode;
     }
+
+
 }
