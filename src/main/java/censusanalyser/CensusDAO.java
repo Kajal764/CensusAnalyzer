@@ -24,36 +24,14 @@ public class CensusDAO {
         areaInSqKm=usCensusCsv.areaInSqKm;
         densityPerSqKm=usCensusCsv.densityPerSqKm;
 
-
     }
 
-   /* public IndiaCensusCsv getIndiaCensusCsv(){
-        return new IndiaCensusCSV(state,population,densityPerSqKm,areaInSqKm);
-    }
-public Object getCensusDTO(CensusAnalyser.Country country)
-{
+    public Object getCensusDTO(CensusAnalyser.Country country)
+    {
     if(country.equals(CensusAnalyser.Country.US))
+        return new UsCensusCsv(state,stateCode,population,areaInSqKm,densityPerSqKm);
+    return new IndiaCensusCSV(state,population,(int)densityPerSqKm,(int)areaInSqKm);
 
-}*/
-
-    public String getStateCode() {
-        return stateCode;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public double getPopulation() {
-        return population;
-    }
-
-    public double getDensityPerSqKm() {
-        return densityPerSqKm;
-    }
-
-    public double getAreaInSqKm() {
-        return areaInSqKm;
     }
 
 

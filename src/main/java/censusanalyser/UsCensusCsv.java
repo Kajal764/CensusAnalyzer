@@ -20,6 +20,18 @@ public class UsCensusCsv {
     @CsvBindByName(column ="StateId")
     public String stateCode;
 
+    public UsCensusCsv(String state, String stateCode, double population, double areaInSqKm, double densityPerSqKm) {
+        this.state =state;
+        this.stateCode = stateCode;
+        this.population = (int) population;
+        this.areaInSqKm = areaInSqKm;
+        this.densityPerSqKm = densityPerSqKm;
+
+    }
+
+    public UsCensusCsv() {
+    }
+
     @Override
     public String toString() {
         return "UsCensusCsv{" +
